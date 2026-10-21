@@ -1,3 +1,6 @@
+"use client"
+
+import * as React from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
@@ -44,11 +47,24 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  nativeButton,
+  render,
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  // Base UI expects a native <button> unless told otherwise. Most call sites
+  // here render links (`render={<a href="…" />}`), which would otherwise log a
+  // dev-time warning and lose the correct semantics. Infer it from `render`
+  // while still letting callers override explicitly.
+  const isNativeButton =
+    nativeButton ??
+    (render === undefined ||
+      (React.isValidElement(render) && render.type === "button"))
+
   return (
     <ButtonPrimitive
       data-slot="button"
+      nativeButton={isNativeButton}
+      render={render}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
