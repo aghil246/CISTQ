@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
+import { useCatalog } from "@/components/catalog-provider"
 import type { Product } from "@/data/shop"
-import { products } from "@/data/shop"
 
 export type CartLine = {
   productId: string
@@ -110,6 +110,7 @@ function writeLines(lines: CartLine[]) {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+  const products = useCatalog()
   const lines = React.useSyncExternalStore(
     subscribeToLines,
     getLinesSnapshot,
@@ -168,7 +169,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
     }
     return { itemCount: lines.length, unitCount: units, subtotal: total }
-  }, [lines])
+  }, [lines, products])
 
   const value = React.useMemo<CartContextValue>(
     () => ({
