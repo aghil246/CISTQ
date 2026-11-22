@@ -4,8 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { SectionHeading } from "@/components/shop/section-heading"
 import { ProductCard } from "@/components/shop/product-card"
+import { useCatalog } from "@/components/catalog-provider"
 import type { Product } from "@/data/shop"
-import { products } from "@/data/shop"
 import { containerClass } from "@/lib/layout"
 
 const tabs: { value: string; label: string; filter: (p: Product) => boolean }[] =
@@ -28,6 +28,8 @@ const tabs: { value: string; label: string; filter: (p: Product) => boolean }[] 
   ]
 
 export function FeaturedProducts() {
+  const products = useCatalog()
+
   return (
     <section
       id="products"

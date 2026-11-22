@@ -15,10 +15,11 @@ import {
 } from "@/components/ui/sheet"
 import { ProductVisual } from "@/components/shop/product-visual"
 import { useCart } from "@/components/cart-provider"
-import { products } from "@/data/shop"
+import { useCatalog } from "@/components/catalog-provider"
 import { formatPrice } from "@/lib/format"
 
 export function CartSheet() {
+  const products = useCatalog()
   const {
     lines,
     unitCount,
